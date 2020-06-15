@@ -4,6 +4,7 @@
 #define _QWERTY 0
 #define _LOWER 1
 #define _RAISE 2
+#define _ARROWS 3
 #define _ADJUST 16
 
 enum custom_keycodes {
@@ -25,17 +26,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |------+------+------+------+------+------+------+--------------------+------+------+------+------+------+------+------|
    * | Tab  |   A  |   S  |   D  |   F  |   G  | EISU |                    | RAISE|   H  |   J  |   K  |   L  |   ;  |  "   |
    * |------+------+------+------+------+------+---------------------------+------+------+------+------+------+------+------|
-   * | Shift|   Z  |   X  |   C  |   V  |   B  | Space| Home |      | End  | Space|   N  |   M  |   ,  |   .  |   /  | Shift|
+   * | Shift|   Z  |   X  |   C  |   V  |   B  | Space| Home |      | End  | Bcsp |   N  |   M  |   ,  |   .  |   /  | Shift|
    * |-------------+------+------+------+------+      +------+------+------+      +------+------+------+------+-------------|
-   * | Ctrl |  GUI |  ALt |Lower |||||||| Enter| Space|  Del |||||||| Del  | Space| Bksp |||||||| Left | Down |  Up  | Right|
+   * | Ctrl |  GUI |  ALt |Lower |||||||| Enter| Space|  Del |||||||| Del  | Bcsp | Enter|||||||| Left | Down |  Up  | Right|
 :   * ,----------------------------------------------------------------------------------------------------------------------. 
    */
   [_QWERTY] = LAYOUT( \
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_LBRC,                        KC_RBRC, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_PSCR, \
     KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_MINS,                        KC_EQL , KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS, \
-    KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    EISU ,                          RAISE,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    EISU ,                          RAISE,   KC_H,    KC_J,    KC_K,    KC_L,    LT(3, KC_SCLN), KC_QUOT, \
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_HOME ,     KC_END ,          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
-    KC_LCTL, KC_LGUI, KC_LALT,          LOWER,   KC_ENT,  KC_SPC , KC_DEL ,      KC_DEL , KC_SPC , KC_BSPC,          KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+    KC_LCTL, KC_LGUI, KC_LALT,          LOWER,   KC_ENT,  KC_SPC , KC_DEL ,      KC_DEL , KC_BSPC ,LT(3,KC_ENT),          KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
   ),
 
   /* Lower
@@ -78,6 +79,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    EISU ,                          RAISE,   KC_H,    KC_J,    KC_K,    KC_L,    KC_COLN, KC_DQT , \
     KC_LSFT, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,             KC_HOME ,     KC_ENT ,          KC_N,    KC_M,    KC_LT,   KC_GT,   KC_QUES, KC_RSFT, \
     KC_LCTL, KC_LGUI, KC_LALT,          LOWER,   KC_ENT,  KC_SPC , KC_DEL ,      KC_DEL , KC_SPC , KC_BSPC,          KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+  ),
+
+  /* Arrows
+   * ,----------------------------------------------------------------------------------------------------------------------.
+   * |      |      |      |      |      |      |      |                    |      |      |      |      |      |      |      |
+   * |------+------+------+------+------+------+---------------------------+------+------+------+------+------+------+------|
+   * |      | Reset|RGB ON|  MODE|  HUE-|  HUE+|      |                    |      |  SAT-|  SAT+|  VAL-|  VAL+|      |      |
+   * |------+------+------+------+------+------+---------------------------+------+------+------+------+------+------+------|
+   * |      |      | BL ON|  BRTG|  INC|   DEC|      |                    |      |      |      |      |      |      |      |
+   * |------+------+------+------+------+------+---------------------------+------+------+------+------+------+------+------|
+   * |      |      |      |      |      |      |      |                    |      |      |      |      |      |      |      |
+   * |-------------+------+------+------+------+------+------+------+------+------+------+------+------+------+-------------|
+   * |      |      |      |      ||||||||      |      |      ||||||||      |      |      ||||||||      |      |      |      |
+   * ,----------------------------------------------------------------------------------------------------------------------.
+   */
+  [_ARROWS] = LAYOUT(
+    _______, _______, _______, _______, _______, _______,_______,                       _______, _______, _______, _______, _______, _______, _______, \
+    _______,RESET  , RGB_TOG, RGB_MOD, RGB_HUD, RGB_HUI,_______,                       _______, RGB_SAD, RGB_SAI, KC_UP, RGB_VAI, _______, _______, \
+    _______, _______, BL_TOGG, BL_BRTG, BL_INC , BL_DEC ,_______,                       _______, _______, KC_LEFT, KC_DOWN , KC_RIGHT, _______, _______, \
+    _______, _______, _______, _______, _______, _______,_______,                       _______, _______, _______, _______, _______, _______, _______, \
+    _______, _______, _______, _______,          _______,_______,_______,       _______,_______, _______,          _______, _______, _______, _______  \
   ),
 
   /* Adjust
